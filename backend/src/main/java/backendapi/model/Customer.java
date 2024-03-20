@@ -48,6 +48,15 @@ public class Customer {
     @Column(unique = true)
     private String profileImageId;
 
+    public Customer(String name, String email, LocalDateTime birthdate, Gender gender, String password, String profileImageId) {
+        this.name = name;
+        this.email = email;
+        this.birthdate = birthdate;
+        this.gender = gender;
+        this.password = password;
+        this.profileImageId = profileImageId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

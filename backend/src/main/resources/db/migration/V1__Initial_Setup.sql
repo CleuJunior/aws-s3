@@ -1,8 +1,8 @@
 CREATE TABLE customer (
-                          id BIGSERIAL PRIMARY KEY,
+                          id SERIAL PRIMARY KEY,
                           name TEXT NOT NULL,
                           email TEXT NOT NULL,
                           password TEXT NOT NULL,
                           gender TEXT NOT NULL,
-                          age INT NOT NULL
+                          birthdate TIMESTAMP NOT NULL
 );
