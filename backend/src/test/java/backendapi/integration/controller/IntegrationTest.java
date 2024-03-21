@@ -1,9 +1,9 @@
-package backendapi;
+package backendapi.integration.controller;
 
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -20,5 +20,17 @@ public abstract class IntegrationTest {
     @Container
     @ServiceConnection
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest");
+
+    @BeforeAll
+    static void beforeAll() {
+        var flyway = Flyway
+                .configure()
+                .dataSource(
+                        postgres.getJdbcUrl(),
+                        postgres.getUsername(),
+                        postgres.getPassword()
+                ).load();
+        flyway.migrate();
+    }
 
 }

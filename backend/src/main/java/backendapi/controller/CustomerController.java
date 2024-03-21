@@ -2,10 +2,9 @@ package backendapi.controller;
 
 import backendapi.dto.CustomerRequest;
 import backendapi.dto.CustomerResponse;
-import backendapi.service.CustomerCrudServiceImpl;
+import backendapi.service.CustomerCrudServiceImp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final CustomerCrudServiceImpl service;
+    private final CustomerCrudServiceImp service;
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> getCustomers() {

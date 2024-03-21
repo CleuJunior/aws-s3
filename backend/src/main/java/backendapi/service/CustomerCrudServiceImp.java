@@ -19,7 +19,7 @@ import static org.springframework.data.domain.Page.empty;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CustomerCrudServiceImpl implements CrudService<CustomerRequest, CustomerResponse> {
+public class CustomerCrudServiceImp implements CrudService<CustomerRequest, CustomerResponse> {
 
     private final CustomerMapper mapper;
     private final CustomerRepository customerRepository;

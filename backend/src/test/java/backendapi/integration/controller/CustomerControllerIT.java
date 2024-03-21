@@ -1,22 +1,22 @@
-package backendapi;
+package backendapi.integration.controller;
 
 import backendapi.repository.CustomerRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static backendapi.factory.CustomerFactory.createCustomers;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CustomerIT extends IntegrationTest {
+class CustomerControllerIT extends IntegrationTest {
 
     @Autowired
     private CustomerRepository repository;
+//    @Autowired
+//    private MockMvc mockMvc;
 
-    @BeforeEach
-    void setUp() {
-        repository.saveAll(createCustomers());
-    }
+//    @BeforeEach
+//    void setUp() {
+//        repository.saveAll(createCustomers());
+//    }
 
     @Test
     void testtest() {
