@@ -1,6 +1,7 @@
 package backendapi.integration.controller;
 
 import org.flywaydb.core.Flyway;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
