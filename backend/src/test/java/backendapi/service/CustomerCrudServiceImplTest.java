@@ -27,7 +27,7 @@ import static org.springframework.data.domain.Page.empty;
 import static org.springframework.data.domain.PageRequest.of;
 
 @ExtendWith(MockitoExtension.class)
-class CustomerCrudServiceImpTest {
+class CustomerCrudServiceImplTest {
 
     @Mock
     private Customer customer;
@@ -40,7 +40,7 @@ class CustomerCrudServiceImpTest {
     @Mock
     private CustomerRepository customerRepository;
     @InjectMocks
-    private CustomerCrudServiceImp service;
+    private CustomerCrudServiceImpl service;
 
     private static final Integer ID = 1;
 

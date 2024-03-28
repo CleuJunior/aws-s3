@@ -1,4 +1,4 @@
-package backendapi.integration.controller;
+package backendapi.integration;
 
 import org.junit.jupiter.api.Test;
 

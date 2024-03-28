@@ -2,7 +2,7 @@ package backendapi.controller;
 
 import backendapi.dto.CustomerRequest;
 import backendapi.dto.CustomerResponse;
-import backendapi.service.CustomerCrudServiceImp;
+import backendapi.service.CustomerCrudServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final CustomerCrudServiceImp service;
+    private final CustomerCrudServiceImpl service;
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> getCustomers() {

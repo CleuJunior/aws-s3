@@ -2,7 +2,7 @@ package backendapi.controller;
 
 import backendapi.dto.CustomerRequest;
 import backendapi.dto.CustomerResponse;
-import backendapi.service.CustomerCrudServiceImp;
+import backendapi.service.CustomerCrudServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ import static org.springframework.data.domain.PageRequest.of;
 class CustomerControllerTest {
 
     @Mock
-    private CustomerCrudServiceImp service;
+    private CustomerCrudServiceImpl service;
     @Mock
     private CustomerResponse customerResponse;
     @Mock

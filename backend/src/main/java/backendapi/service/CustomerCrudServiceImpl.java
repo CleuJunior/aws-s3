@@ -2,6 +2,7 @@ package backendapi.service;
 
 import backendapi.dto.CustomerRequest;
 import backendapi.dto.CustomerResponse;
+import backendapi.exception.ResourceNotFoundException;
 import backendapi.mapper.CustomerMapper;
 import backendapi.model.Customer;
 import backendapi.repository.CustomerRepository;
@@ -12,14 +13,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
+import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.springframework.data.domain.Page.empty;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CustomerCrudServiceImp implements CrudService<CustomerRequest, CustomerResponse> {
+public class CustomerCrudServiceImpl implements CrudService<CustomerRequest, CustomerResponse> {
 
     private final CustomerMapper mapper;
     private final CustomerRepository customerRepository;
@@ -98,7 +101,7 @@ public class CustomerCrudServiceImp implements CrudService<CustomerRequest, Cust
 
         if (customer.isEmpty()) {
             log.warn("Customer with id {} not found", id);
-            throw new IllegalArgumentException("Customer with id " + id + " not found");
+            throw new ResourceNotFoundException("Customer id: %d, not found", id);
         }
 
         return customer.get();

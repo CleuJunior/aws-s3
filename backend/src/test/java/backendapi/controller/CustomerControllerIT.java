@@ -1,8 +1,9 @@
-package backendapi.integration.controller;
+package backendapi.controller;
 
 import backendapi.dto.CustomerRequest;
 import backendapi.dto.CustomerResponse;
 import backendapi.factory.CustomerFactory;
+import backendapi.integration.IntegrationTest;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
