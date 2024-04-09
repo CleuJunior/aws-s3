@@ -1,7 +1,7 @@
 package backendapi.service;
 
-import backendapi.dto.CustomerRequest;
-import backendapi.dto.CustomerResponse;
+import backendapi.dto.CustomerJson;
+import backendapi.exception.ResourceNotFoundException;
 import backendapi.mapper.CustomerMapper;
 import backendapi.model.Customer;
 import backendapi.repository.CustomerRepository;
@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.Optional;
 
+import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -32,9 +33,7 @@ class CustomerCrudServiceImplTest {
     @Mock
     private Customer customer;
     @Mock
-    private CustomerResponse customerResponse;
-    @Mock
-    private CustomerRequest customerRequest;
+    private CustomerJson customerJson;
     @Mock
     private CustomerMapper mapper;
     @Mock
@@ -49,13 +48,13 @@ class CustomerCrudServiceImplTest {
         var customers = singletonList(customer);
 
         given(customerRepository.findAll()).willReturn(customers);
-        given(mapper.from(customers)).willReturn(singletonList(customerResponse));
+        given(mapper.from(customers)).willReturn(singletonList(customerJson));
 
         var result = service.findAll();
 
         then(result).hasSize(1);
-        then(result).hasOnlyElementsOfTypes(CustomerResponse.class);
-        then(result).containsOnly(customerResponse);
+        then(result).hasOnlyElementsOfTypes(CustomerJson.class);
+        then(result).containsOnly(customerJson);
 
         verify(customerRepository).findAll();
         verify(mapper).from(customers);
@@ -80,7 +79,7 @@ class CustomerCrudServiceImplTest {
     void shouldReturnAllPagedCustomer() {
         var page = of(0, 1);
         var customerPage = new PageImpl<>(singletonList(customer), page, 1);
-        var customerPageResponse = new PageImpl<>(singletonList(customerResponse), page, 1);
+        var customerPageResponse = new PageImpl<>(singletonList(customerJson), page, 1);
 
         given(customerRepository.findAll(page)).willReturn(customerPage);
         given(mapper.from(customerPage)).willReturn(customerPageResponse);
@@ -88,8 +87,8 @@ class CustomerCrudServiceImplTest {
         var result = service.findAll(page);
 
         then(result).hasSize(1);
-        then(result).hasOnlyElementsOfTypes(CustomerResponse.class);
-        then(result).containsOnly(customerResponse);
+        then(result).hasOnlyElementsOfTypes(CustomerJson.class);
+        then(result).containsOnly(customerJson);
 
         verify(customerRepository).findAll(page);
         verify(mapper).from(customerPage);
@@ -115,13 +114,13 @@ class CustomerCrudServiceImplTest {
     @Test
     void shouldReturnCustomerById() {
         given(customerRepository.findById(ID)).willReturn(Optional.of(customer));
-        given(mapper.from(customer)).willReturn(customerResponse);
+        given(mapper.from(customer)).willReturn(customerJson);
 
         var result = service.findById(ID);
 
         then(result).isNotNull();
-        then(result).isInstanceOf(CustomerResponse.class);
-        then(result).isEqualTo(customerResponse);
+        then(result).isInstanceOf(CustomerJson.class);
+        then(result).isEqualTo(customerJson);
 
         verify(customerRepository).findById(ID);
         verify(mapper).from(customer);
@@ -135,25 +134,25 @@ class CustomerCrudServiceImplTest {
 
 
         assertThatThrownBy(() -> service.findById(ID))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Customer with id " + ID + " not found");
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining(format("Customer id: %d, not found", ID));
 
         verifyNoInteractions(mapper);
     }
 
     @Test
     void shouldSaveCustomer() {
-        given(mapper.from(customerRequest)).willReturn(customer);
+        given(mapper.from(customerJson)).willReturn(customer);
         given(customerRepository.save(customer)).willReturn(customer);
-        given(mapper.from(customer)).willReturn(customerResponse);
+        given(mapper.from(customer)).willReturn(customerJson);
 
-        var result = service.save(customerRequest);
+        var result = service.save(customerJson);
 
         then(result).isNotNull();
-        then(result).isInstanceOf(CustomerResponse.class);
-        then(result).isEqualTo(customerResponse);
+        then(result).isInstanceOf(CustomerJson.class);
+        then(result).isEqualTo(customerJson);
 
-        verify(mapper).from(customerRequest);
+        verify(mapper).from(customerJson);
         verify(customerRepository).save(customer);
         verify(mapper).from(customer);
         verifyNoMoreInteractions(mapper);
@@ -164,13 +163,13 @@ class CustomerCrudServiceImplTest {
     void shouldUpdateCustomer() {
         given(customerRepository.save(customer)).willReturn(customer);
         given(customerRepository.findById(ID)).willReturn(Optional.of(customer));
-        given(mapper.from(customer)).willReturn(customerResponse);
+        given(mapper.from(customer)).willReturn(customerJson);
 
-        var result = service.update(ID, customerRequest);
+        var result = service.update(ID, customerJson);
 
         then(result).isNotNull();
-        then(result).isInstanceOf(CustomerResponse.class);
-        then(result).isEqualTo(customerResponse);
+        then(result).isInstanceOf(CustomerJson.class);
+        then(result).isEqualTo(customerJson);
 
         verify(customerRepository).save(customer);
         verify(mapper).from(customer);
@@ -182,9 +181,9 @@ class CustomerCrudServiceImplTest {
     void shouldThrowErrorWhenUpdateIdNotFound() {
         given(customerRepository.findById(ID)).willReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.update(ID, customerRequest))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Customer with id " + ID + " not found");
+        assertThatThrownBy(() -> service.update(ID, customerJson))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining(format("Customer id: %d, not found", ID));
 
         verifyNoInteractions(mapper);
     }
@@ -205,7 +204,7 @@ class CustomerCrudServiceImplTest {
         given(customerRepository.findById(ID)).willReturn(Optional.empty());
 
         assertThatThrownBy(() -> service.deleteById(ID))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Customer with id " + ID + " not found");
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining(format("Customer id: %d, not found", ID));
     }
 }

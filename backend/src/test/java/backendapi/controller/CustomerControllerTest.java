@@ -1,7 +1,6 @@
 package backendapi.controller;
 
-import backendapi.dto.CustomerRequest;
-import backendapi.dto.CustomerResponse;
+import backendapi.dto.CustomerJson;
 import backendapi.service.CustomerCrudServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,28 +29,26 @@ class CustomerControllerTest {
     @Mock
     private CustomerCrudServiceImpl service;
     @Mock
-    private CustomerResponse customerResponse;
-    @Mock
-    private CustomerRequest customerRequest;
+    private CustomerJson customerJson;
     @InjectMocks
     private CustomerController controller;
-    private List<CustomerResponse> customersResponse;
+    private List<CustomerJson> customersJson;
     private static final Integer ID = 1;
 
     @BeforeEach
     void setUp() {
-        customersResponse = singletonList(customerResponse);
+        customersJson = singletonList(customerJson);
     }
 
     @Test
     void shouldGetCostumerAndStatusCodeOk() {
-        given(service.findAll()).willReturn(customersResponse);
+        given(service.findAll()).willReturn(customersJson);
 
         var result = controller.getCustomers();
 
         then(result).isNotNull();
         then(result.getStatusCode().value()).isEqualTo(OK);
-        then(result.getBody()).isEqualTo(customersResponse);
+        then(result.getBody()).isEqualTo(customersJson);
 
         verify(service).findAll();
         verifyNoMoreInteractions(service);
@@ -60,7 +57,7 @@ class CustomerControllerTest {
     @Test
     void shouldGetCostumerByPageAndSizeAndStatusCodeOk() {
         var page = of(0, 1);
-        var pageableCustomer = new PageImpl<>(customersResponse, page, 1);
+        var pageableCustomer = new PageImpl<>(customersJson, page, 1);
 
         given(service.findAll(page)).willReturn(pageableCustomer);
 
@@ -76,13 +73,13 @@ class CustomerControllerTest {
 
     @Test
     void shouldReturnCustomerById() {
-        given(service.findById(ID)).willReturn(customerResponse);
+        given(service.findById(ID)).willReturn(customerJson);
 
         var result = controller.getCustomerById(ID);
 
         then(result).isNotNull();
         then(result.getStatusCode().value()).isEqualTo(OK);
-        then(result.getBody()).isEqualTo(customerResponse);
+        then(result.getBody()).isEqualTo(customerJson);
 
         verify(service).findById(ID);
         verifyNoMoreInteractions(service);
@@ -90,29 +87,29 @@ class CustomerControllerTest {
 
     @Test
     void shouldRegisterCustomer() {
-        given(service.save(customerRequest)).willReturn(customerResponse);
+        given(service.save(customerJson)).willReturn(customerJson);
 
-        var result = controller.registerCustomer(customerRequest);
+        var result = controller.registerCustomer(customerJson);
 
         then(result).isNotNull();
         then(result.getStatusCode().value()).isEqualTo(CREATED);
-        then(result.getBody()).isEqualTo(customerResponse);
+        then(result.getBody()).isEqualTo(customerJson);
 
-        verify(service).save(customerRequest);
+        verify(service).save(customerJson);
         verifyNoMoreInteractions(service);
     }
 
     @Test
     void shouldUpdateCustomer() {
-        given(service.update(ID, customerRequest)).willReturn(customerResponse);
+        given(service.update(ID, customerJson)).willReturn(customerJson);
 
-        var result = controller.updateCustomer(ID, customerRequest);
+        var result = controller.updateCustomer(ID, customerJson);
 
         then(result).isNotNull();
         then(result.getStatusCode().value()).isEqualTo(NO_CONTENT);
         then(result.getBody()).isNull();
 
-        verify(service).update(ID, customerRequest);
+        verify(service).update(ID, customerJson);
         verifyNoMoreInteractions(service);
 
     }

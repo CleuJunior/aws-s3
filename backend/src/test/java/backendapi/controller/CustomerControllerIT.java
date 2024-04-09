@@ -1,7 +1,6 @@
 package backendapi.controller;
 
-import backendapi.dto.CustomerRequest;
-import backendapi.dto.CustomerResponse;
+import backendapi.dto.CustomerJson;
 import backendapi.factory.CustomerFactory;
 import backendapi.integration.IntegrationTest;
 import jakarta.transaction.Transactional;
@@ -84,8 +83,8 @@ class CustomerControllerIT extends IntegrationTest {
     @Test
     void shouldSaveCustomer() throws Exception {
         var birthdate = of(1989, 3, 4, 12, 32);
-        var request = new CustomerRequest("Save", "savedata@gmail.com", birthdate, FEMALE, "123", "ABC123");
-        var response = new CustomerResponse(6, "Save", "savedata@gmail.com", birthdate, FEMALE, "123", "ABC123");
+        var request = new CustomerJson("Save", "savedata@gmail.com", birthdate, FEMALE, "123", "ABC123");
+        var response = new CustomerJson(6, "Save", "savedata@gmail.com", birthdate, FEMALE, "123", "ABC123");
         var jsonRequest = factory.buildCustomerRequestAsString(request);
         var jsonResponse = factory.buildCustomerResponseAsString(response);
 
@@ -105,7 +104,7 @@ class CustomerControllerIT extends IntegrationTest {
     void shouldUpdateCustomer() throws Exception {
         var id = 1;
         var birthdate = of(1977, 3, 5, 12, 32);
-        var request = new CustomerRequest("Update", "update@gmail.com", birthdate, MALE, "456", "DEF456");
+        var request = new CustomerJson("Update", "update@gmail.com", birthdate, MALE, "456", "DEF456");
         var jsonRequest = factory.buildCustomerRequestAsString(request);
         var expectResponse = factory.buildCustomerAsStringFromRequestToResponse(id, request);
 

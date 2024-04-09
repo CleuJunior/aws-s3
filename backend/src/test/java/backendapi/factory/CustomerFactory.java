@@ -1,7 +1,6 @@
 package backendapi.factory;
 
-import backendapi.dto.CustomerRequest;
-import backendapi.dto.CustomerResponse;
+import backendapi.dto.CustomerJson;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -55,12 +54,12 @@ import static java.util.List.of;
 public class CustomerFactory {
 
     private final ObjectMapper objectMapper;
-    private final List<CustomerResponse> customers = of(
-            new CustomerResponse(WHAZT_ID, WHAZT, WHAZT_EMAIL, WHAZT_BIRTHDATE, WHAZT_GENDER, WHAZT_PASSWORD, WHAZT_PROFILE_IMAGE_ID),
-            new CustomerResponse(JOAO_ID, JOAO, JOAO_EMAIL, JOAO_BIRTHDATE, JOAO_GENDER, JOAO_PASSWORD, JOAO_PROFILE_IMAGE_ID),
-            new CustomerResponse(MARIA_ID, MARIA, MARIA_EMAIL, MARIA_BIRTHDATE, MARIA_GENDER, MARIA_PASSWORD, MARIA_PROFILE_IMAGE_ID),
-            new CustomerResponse(PEDRO_ID, PEDRO, PEDRO_EMAIL, PEDRO_BIRTHDATE, PEDRO_GENDER, PEDRO_PASSWORD, PEDRO_PROFILE_IMAGE_ID),
-            new CustomerResponse(ANA_ID, ANA, ANA_EMAIL, ANA_BIRTHDATE, ANA_GENDER, ANA_PASSWORD, ANA_PROFILE_IMAGE_ID)
+    private final List<CustomerJson> customers = of(
+            new CustomerJson(WHAZT_ID, WHAZT, WHAZT_EMAIL, WHAZT_BIRTHDATE, WHAZT_GENDER, WHAZT_PASSWORD, WHAZT_PROFILE_IMAGE_ID),
+            new CustomerJson(JOAO_ID, JOAO, JOAO_EMAIL, JOAO_BIRTHDATE, JOAO_GENDER, JOAO_PASSWORD, JOAO_PROFILE_IMAGE_ID),
+            new CustomerJson(MARIA_ID, MARIA, MARIA_EMAIL, MARIA_BIRTHDATE, MARIA_GENDER, MARIA_PASSWORD, MARIA_PROFILE_IMAGE_ID),
+            new CustomerJson(PEDRO_ID, PEDRO, PEDRO_EMAIL, PEDRO_BIRTHDATE, PEDRO_GENDER, PEDRO_PASSWORD, PEDRO_PROFILE_IMAGE_ID),
+            new CustomerJson(ANA_ID, ANA, ANA_EMAIL, ANA_BIRTHDATE, ANA_GENDER, ANA_PASSWORD, ANA_PROFILE_IMAGE_ID)
     );
 
     public String buildCustomersAsString() throws JsonProcessingException {
@@ -92,16 +91,16 @@ public class CustomerFactory {
         return objectMapper.writeValueAsString(response);
     }
 
-    public String buildCustomerRequestAsString(CustomerRequest request) throws JsonProcessingException {
+    public String buildCustomerRequestAsString(CustomerJson request) throws JsonProcessingException {
         return objectMapper.writeValueAsString(request);
     }
 
-    public String buildCustomerResponseAsString(CustomerResponse response) throws JsonProcessingException {
+    public String buildCustomerResponseAsString(CustomerJson response) throws JsonProcessingException {
         return objectMapper.writeValueAsString(response);
     }
 
-    public String buildCustomerAsStringFromRequestToResponse(int id, CustomerRequest request) throws JsonProcessingException {
-        var responese = new CustomerResponse(
+    public String buildCustomerAsStringFromRequestToResponse(int id, CustomerJson request) throws JsonProcessingException {
+        var responese = new CustomerJson(
                 id,
                 request.name(),
                 request.email(),

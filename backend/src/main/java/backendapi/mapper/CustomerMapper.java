@@ -1,10 +1,8 @@
 package backendapi.mapper;
 
-import backendapi.dto.CustomerRequest;
-import backendapi.dto.CustomerResponse;
+import backendapi.dto.CustomerJson;
 import backendapi.model.Customer;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
 @Component
 public class CustomerMapper {
 
-    public Customer from(CustomerRequest request) {
+    public Customer from(CustomerJson request) {
         return Customer
                 .builder()
                 .name(request.name())
@@ -24,8 +22,8 @@ public class CustomerMapper {
                 .build();
     }
 
-    public CustomerResponse from(Customer customer) {
-        return new CustomerResponse(
+    public CustomerJson from(Customer customer) {
+        return new CustomerJson(
                 customer.getId(),
                 customer.getName(),
                 customer.getEmail(),
@@ -36,14 +34,14 @@ public class CustomerMapper {
         );
     }
 
-    public List<CustomerResponse> from(List<Customer> customer) {
+    public List<CustomerJson> from(List<Customer> customer) {
         return customer
                 .stream()
                 .map(this::from)
                 .toList();
     }
 
-    public Page<CustomerResponse> from(Page<Customer> customer) {
+    public Page<CustomerJson> from(Page<Customer> customer) {
         return customer.map(this::from);
     }
 }

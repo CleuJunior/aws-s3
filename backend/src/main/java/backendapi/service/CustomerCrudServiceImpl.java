@@ -1,7 +1,6 @@
 package backendapi.service;
 
-import backendapi.dto.CustomerRequest;
-import backendapi.dto.CustomerResponse;
+import backendapi.dto.CustomerJson;
 import backendapi.exception.ResourceNotFoundException;
 import backendapi.mapper.CustomerMapper;
 import backendapi.model.Customer;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
@@ -22,13 +20,13 @@ import static org.springframework.data.domain.Page.empty;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CustomerCrudServiceImpl implements CrudService<CustomerRequest, CustomerResponse> {
+public class CustomerCrudServiceImpl implements CrudService<CustomerJson> {
 
     private final CustomerMapper mapper;
     private final CustomerRepository customerRepository;
 
     @Override
-    public List<CustomerResponse> findAll() {
+    public List<CustomerJson> findAll() {
         var customers = customerRepository.findAll();
 
         if (customers.isEmpty()) {
@@ -41,7 +39,7 @@ public class CustomerCrudServiceImpl implements CrudService<CustomerRequest, Cus
     }
 
     @Override
-    public Page<CustomerResponse> findAll(Pageable pageable) {
+    public Page<CustomerJson> findAll(Pageable pageable) {
         var customer = customerRepository.findAll(pageable);
 
         if (customer.isEmpty()) {
@@ -54,7 +52,7 @@ public class CustomerCrudServiceImpl implements CrudService<CustomerRequest, Cus
     }
 
     @Override
-    public CustomerResponse findById(Integer id) {
+    public CustomerJson findById(Integer id) {
         var customer = findCustomerByIdOrThrow(id);
 
         log.info("Successfully found customer with id {}", id);
@@ -62,7 +60,7 @@ public class CustomerCrudServiceImpl implements CrudService<CustomerRequest, Cus
     }
 
     @Override
-    public CustomerResponse save(CustomerRequest request) {
+    public CustomerJson save(CustomerJson request) {
         var customer = mapper.from(request);
 
         customerRepository.save(customer);
@@ -72,7 +70,7 @@ public class CustomerCrudServiceImpl implements CrudService<CustomerRequest, Cus
     }
 
     @Override
-    public CustomerResponse update(Integer id, CustomerRequest request) {
+    public CustomerJson update(Integer id, CustomerJson request) {
         var customer = findCustomerByIdOrThrow(id);
 
         customer.setName(request.name());
